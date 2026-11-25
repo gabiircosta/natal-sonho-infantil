@@ -53,6 +53,7 @@ h3.sec{font-family:Georgia,serif;font-size:1.5rem;margin:30px 0 4px}
 .pad{background:var(--card);border:1px solid var(--bd);border-radius:18px;padding:4px 20px 20px;margin-top:26px}.pad h3.sec{margin-top:16px}.pad input{font:inherit;width:100%;margin-top:12px;border:2px solid var(--grn);background:var(--card);color:var(--ink);border-radius:99px;padding:12px 18px}#pmsg{margin-top:8px;font-weight:600;color:var(--grn)}
 .md{position:fixed;inset:0;background:rgba(0,0,0,.5);display:none;align-items:center;justify-content:center;padding:16px;z-index:50}.md.on{display:flex}.mb{background:var(--card);border-radius:20px;padding:22px;max-width:420px;width:100%}.mb h3{font-family:Georgia,serif;margin:0 0 6px}.mb input,.mb textarea{font:inherit;width:100%;margin-top:10px;border:1px solid var(--bd);background:var(--bg);color:var(--ink);border-radius:12px;padding:10px 12px}.mb textarea{min-height:70px;resize:vertical}.mb .pr{display:block;width:100%;margin-top:14px;border:0;border-radius:99px;background:var(--grn);color:#fff;font:inherit;font-weight:600;padding:11px;cursor:pointer}.mb .pr:disabled{opacity:.6}.mb .gh{background:none;border:0;color:var(--mut);font:inherit;cursor:pointer;display:block;margin:8px auto 0}#me{color:var(--red);font-size:.85rem;margin-top:8px}button.wa{border:0;cursor:pointer;font-family:inherit}
 .hv{font-family:Georgia,serif;font-style:italic;max-width:600px;margin:0 auto 20px;font-size:.98rem;line-height:1.5;opacity:.95}.hv cite{display:block;font-style:normal;font-size:.8rem;opacity:.8;margin-top:4px}
+.meta{display:block;text-align:center;margin-top:14px;background:linear-gradient(90deg,var(--gold),#f0c75e);color:#3a2a05;font-weight:700;padding:11px 16px;border-radius:99px}
 .empty{text-align:center;color:var(--mut);padding:30px;grid-column:1/-1}
 footer{text-align:center;color:var(--mut);font-size:.85rem;padding:30px 16px}
 @media(max-width:620px){.goals{grid-template-columns:1fr}}
@@ -75,7 +76,7 @@ footer{text-align:center;color:var(--mut);font-size:.85rem;padding:30px 16px}
 <div class="g"><h2>🎈 Meta de arrecadação</h2>
 <div class="num"><span id="arr"></span> <small id="meta"></small></div>
 <div class="track"><i class="f2" id="b2"></i></div>
-<div class="sm" id="fq"></div><div class="chips"><span class="chip">Brincadeiras</span><span class="chip">Alimentação</span></div><a class="don" id="don" target="_blank" rel="noopener" href="#">💚 Quero doar em dinheiro</a><div class="sm" style="text-align:center;margin-top:8px">Mais abaixo, vamos publicar fotos e todas as notas fiscais dos custos do evento.</div></div>
+<div class="sm" id="fq"></div><div class="chips"><span class="chip">Lembrancinhas</span><span class="chip">Doces</span></div><div class="meta">🎉 Atingimos a meta!</div><div class="sm" style="text-align:center;margin-top:8px">Mais abaixo, vamos publicar fotos e todas as notas fiscais dos custos do evento.</div></div>
 </section>
 
 <section class="pad"><h3 class="sec">💚 Já é padrinho ou madrinha?</h3><div class="sm">Digite seu nome para encontrar a sua criança e ver os tamanhos.</div><input id="pq" type="search" placeholder="Digite seu nome" autocomplete="off"><div class="sm" id="pmsg"></div></section><h3 class="sec">As crianças</h3>
@@ -107,7 +108,7 @@ $("falta").textContent=p?"Faltam "+p+" crianças para ganhar padrinho.":"Todas a
 $("lares").innerHTML=["Lar 1","Lar 3"].map(function(l){var a=n(function(c){return c.l===l}),b=n(function(c){return c.l===l&&c.s!=="P"});return'<span class="chip">'+l+": "+b+"/"+a+"</span>"}).join("");
 var ap=Math.min(100,Math.round(ARRECADADO/META*100));
 $("arr").textContent=brl(ARRECADADO);$("meta").textContent="de "+brl(META)+" ("+ap+"%)";
-$("fq").textContent=ARRECADADO>=META?"Meta batida! Obrigada 💚":"Faltam "+brl(META-ARRECADADO)+" para a meta.";
+$("fq").textContent=ARRECADADO>=META?"Obrigada a todos que contribuíram 💚":"Faltam "+brl(META-ARRECADADO)+" para a meta.";
 setTimeout(function(){$("b1").style.width=pc+"%";$("b2").style.width=ap+"%"},150);
 var d=Math.round((new Date(2026,11,5)-new Date(new Date().getFullYear(),new Date().getMonth(),new Date().getDate()))/864e5);
 if(d>1){$("dias").textContent=d}else if(d===1){$("dias").textContent="1";$("diasl").textContent="dia para o evento"}else if(d===0){$("dias").textContent="Hoje!";$("diasl").textContent="é o grande dia"}else{$("dias").textContent="💚";$("diasl").textContent="obrigada a todos"}
@@ -125,7 +126,7 @@ document.querySelectorAll(".bar button[data-f]").forEach(function(b){b.addEventL
 $("q").addEventListener("input",render);
 $("grid").addEventListener("click",function(e){var i=e.target.getAttribute("data-i");if(i!==null)copy((R[i].s==="P"?"Olá! Esta criança do SAICA ainda precisa de padrinho para o Natal: ":"Ficha da criança apadrinhada no Natal do SAICA: ")+ficha(R[i]),e.target)});
 if($("all"))$("all").addEventListener("click",function(){var p=R.filter(function(c){return c.s==="P"});copy("Crianças do SAICA que ainda precisam de padrinho ("+p.length+"):\n"+p.map(function(c){return"• "+ficha(c)}).join("\n"),$("all"))});
-document.querySelectorAll(".bar button[data-g]").forEach(function(b){b.addEventListener("click",function(){var v=b.getAttribute("data-g");G=(G===v)?"":v;document.querySelectorAll(".bar button[data-g]").forEach(function(x){x.classList.toggle("on",G!==""&&x===b)});render()})});$("don").href="https://wa.me/"+WHATS+"?text="+encodeURIComponent("Olá! Quero contribuir com uma doação em dinheiro para o Natal das crianças do SAICA. Como faço?");$("pq").addEventListener("input",function(){PQ=norm(this.value.trim());render()});var APPS="https://script.google.com/macros/s/AKfycbzokghXtxRIP9brkvemmvE1rYLjbLFvw6pdHEL6ML4i11UsBJ0r2J02a2-w4mzbgFoN/exec";var cur=-1;
+document.querySelectorAll(".bar button[data-g]").forEach(function(b){b.addEventListener("click",function(){var v=b.getAttribute("data-g");G=(G===v)?"":v;document.querySelectorAll(".bar button[data-g]").forEach(function(x){x.classList.toggle("on",G!==""&&x===b)});render()})});$("pq").addEventListener("input",function(){PQ=norm(this.value.trim());render()});var APPS="https://script.google.com/macros/s/AKfycbzokghXtxRIP9brkvemmvE1rYLjbLFvw6pdHEL6ML4i11UsBJ0r2J02a2-w4mzbgFoN/exec";var cur=-1;
 function openAdopt(i){var c=R[i];if(!APPS){window.open(wa(c),"_blank");return}cur=i;$("mt").textContent="Apadrinhar "+c.n;$("me").textContent="";$("mn").value="";$("mo").value="";$("mf").style.display="";$("mok").style.display="none";$("md").classList.add("on");$("mn").focus()}
 function closeM(){$("md").classList.remove("on")}
 function sendAdopt(){var c=R[cur],nome=$("mn").value.trim(),b=$("ms");var tel=$("mo").value.trim();if(nome.length<3){$("me").textContent="Digite seu nome completo.";return}if(tel.replace(/\D/g,"").length<10){$("me").textContent="Digite seu celular com DDD.";return}b.disabled=true;b.textContent="Enviando…";$("me").textContent="";
